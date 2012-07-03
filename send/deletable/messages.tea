@@ -1,0 +1,98 @@
+<% template messages(Integer type, Integer category, String filterName, String filterValue, String alertId, Integer days, String callback)
+
+c = 0;
+dateFormat('yyyy-MM-dd');
+if ( days == null ){ days = 3; }
+lastId = -1;
+replaceBodyHash = ##(
+				'%%AD_DATA%%', '',
+				'"', '\\"'
+				);
+start = currentDate();
+alerts = getRptAlertsByTypeCategoryAndDates(type,category,adjustDate(start,'d',(days*-1))&'',start&'');
+
+if ( callback != null ){
+	callback & '('
+}
+
+if ( alertId != null ){
+
+	
+
+} else {
+
+	'['
+
+	if ( alerts != null ){
+		foreach ( rptAlert in alerts ){
+
+			// now use a different obj to fetch more detail
+			rptAlertDetailsObj = getRptAlertDetailsByAlertId(convertStringToInteger(rptAlert.alertid));
+
+			filterObjs = rptAlertDetailsObj.rptAlertFilterDetails;
+			alertObj = rptAlertDetailsObj.rptAlertDetails;
+
+			if ( alertObj != null and filterObjs != null ){
+
+				found = false;
+				foreach ( filter in filterObjs ){
+					aFilterName = toLowerCase(filter.filterName);
+					aFilterValue = toLowerCase(filter.filterValue);
+					if ( aFilterName == filterName and aFilterValue == filterValue ){
+						found = true;
+						break;
+					}
+				}
+
+				if ( found ){
+
+					if ( alertObj.alertBodies != null ){
+						alertBodyObj = alertObj.alertBodies[0];
+						if ( alertBodyObj isa disney.wireless.alerts.AlertBody ){
+							if ( lastId != alertObj.alertId ){
+								text = trim(replace(alertBodyObj.alertBodyString,replaceBodyHash));
+								if ( startsWith(text,'ESPN ') ){
+									text = trim(substring(text,5));
+								}
+								links = ##(1,'nfl/',2,'mlb/',3,'nba/',4,'nhl/',5,'mens-college-football/',6,'mens-college-basketball/',8,'golf/',9,'racing/');
+								if ( c > 0 ){
+									','
+								}
+								'{'
+									'"id": ' alertObj.alertId ','
+									'"image": "' call api.myImg(alertObj.category,filterName,filterValue) '",'
+									'"time": "' replace(alertObj.time,' ','T') '-08:00",' /// @ todo update for DST
+									'"link": "http://espn.go.com/'
+										if ( links[category] != null ){
+											links[category];
+										}
+										//memCacheKey = call api. /// @todo
+										storyId = call memcache.memcachedGet(call api.storyIdByAlertIdMemCacheKey(alertObj.alertId));
+										if ( storyId != null and storyId != -1 and storyId != 'null' ){
+											'story?id=' & storyId;
+										}
+									'",'
+									if ( storyId != null and storyId != -1 and storyId != 'null' ){
+										'"storyId": "' & storyId & '",';
+									}
+									'"text": "' text '"'
+								'}'
+								c = c + 1;
+								lastId = alertObj.alertId;
+							}
+						}
+					}
+
+				}
+			}
+
+		}
+	}
+
+	']'
+
+}
+
+if ( callback != null ){
+	');'
+}

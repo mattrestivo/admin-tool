@@ -1,0 +1,27 @@
+// this script should be broken out into a new js file.
+(function($){
+	
+	$objs = $('table a');
+	
+	for(var i=0;i<$objs.length;i++){
+		$obj = $($objs[i]);
+		if ( $obj ){
+			espn.api({
+				"url": $obj.attr('data-apiReq'),
+				"data": {"udid": espn.user.udid},
+				"callback": function(j){
+					if ( !j.error ){
+						if ( j.status && j.status == "success" ){
+							espn.admin.reload();
+						} else {
+							log('unknown error');
+						}
+					} else {
+						log(j.error);
+					}
+				}
+			});
+		}
+	}
+	
+});

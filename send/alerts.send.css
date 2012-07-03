@@ -1,0 +1,100 @@
+#tags div {
+	padding: 2px;
+	background-color: #E0FFFF;
+	border: 1px solid #888;
+	border-radius: 4px;
+	margin: 0 3px 0 0;
+	float: left;
+}
+#tags {
+	min-height: 55px;
+}
+#tags .tag span a{
+	color: #999;
+	margin-left: 3px;
+	padding: 3px 0;
+	text-decoration: none;
+}
+input, textarea {
+	font-size: 13px;
+	padding: 3px;
+	margin: 0 5px 6px 0;
+}
+input {
+	margin-top: 3px;
+}
+textarea#text {
+	width: 272px;
+	height: 100px;
+}
+select {
+	margin-bottom: 6px;
+}
+div.alert-stats {
+	margin: 10px;
+}
+ul.ui-autocomplete {
+	max-height: 100px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+	/* add padding to account for vertical scrollbar */
+	padding-right: 20px;
+	background-color: #FAFAFA;
+	width: 261px;
+	padding: 5px;
+	border-left: 2px #E0FFFF solid;
+	border-right: 2px #E0FFFF solid;
+	border-bottom: 2px #E0FFFF solid;
+}
+ul.ui-autocomplete li {
+	padding: 0;
+	margin: 0 0 5px;
+	list-style: none;
+}
+ul.ui-autocomplete li a.ui-state-hover {
+	background: #E0FFFF;
+}
+ui.autocomplete {
+	height: 100px;
+}
+#leftcol {
+	float: left;
+}
+#rightcol {
+	float: left;
+	margin-left: 10px;
+}
+#main-container {
+	float: left;
+}
+.main {
+	width: 900px !important; /* cmon, seriously? */
+}
+#tags {
+	width: 271px;
+}
+#messages {
+	width: 304px;
+}
+#messages .message {
+	padding: 5px;
+}
+#messages .message .meta input {
+	margin-top: 8px;
+	padding: 1px 3px;
+}
+#messages .message .meta span {
+	float: right;
+	margin-top: 12px;
+}
+#messages .message .meta .actual-time {
+	margin-left: 5px;
+	font-size: 10px;
+}
+#rightcol #alerts-graph {
+	margin-top: 5px;
+}
+#leftcol #details {
+	/*margin-top: 10px;*/
+}

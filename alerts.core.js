@@ -1,7 +1,5 @@
 (function($){
 	
-	// inits;
-	
 	// dom ready
 	$(function(){
 	
